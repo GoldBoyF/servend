@@ -1,0 +1,23 @@
+server {
+        listen  80;
+        server_name redmine.etotech.net www.redmine.etotech.net;
+ 
+        access_log /logs/nginx/access_redmine.etotech.log  main;
+ 
+        location ~* \.(gif|jpg|jpeg|png|css|js|ico)$ {
+            root   /goldskyer/www/redmine;
+            index  index.php index.html index.htm;
+        }
+ 
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /goldskyer/www/share;
+        }
+        location = / {
+            proxy_pass http://redmine.etotech.net:8001/redmine/login;
+       	}
+
+        location / {  
+            proxy_pass http://redmine.etotech.net:8001/; 
+        } 
+}
